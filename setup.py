@@ -1,21 +1,19 @@
-# -*- coding: utf-8 -*-
-import sqlite3
-import os
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+ 
+config = {
+    'description': 'Python Note-taking utility with TKInter based UI',
+    'author': 'DarkCthulhu',
+    'url': 'www.anirudhr.com',
+    'download_url': '',
+    'author_email': '',
+    'version': '0.1',
+    'install_requires': ['nose'],
+    'packages': ['PyNote'],
+    'scripts': [],
+    'name': 'PyNote'
+}
 
-def main():
-
-    
-    
-    
-    
-
-
-
-
-
-
-
-
-
-if __name__=="__main__":
-   main()
+setup(**config)
