@@ -1,7 +1,7 @@
 from sqlitehelper import SqliteHelper
 
 def main():
-    TABLE_QUERY = "CREATE TABLE snips (title text, note text)"
+    TABLE_QUERY = "CREATE TABLE if not exists snips (title text, note text)"
     INSERT_QUERY = "INSERT INTO snips VALUES(?, ?)"
     
     sqlite_helper = SqliteHelper("test.db")

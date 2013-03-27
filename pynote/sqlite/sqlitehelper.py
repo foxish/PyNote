@@ -7,8 +7,8 @@ class SqliteHelper:
         self.cursor = self.conn.cursor()
     
     def do_query(self, query, args):
-        self.cursor.execute(query, args)
-        self.cursor.commit()
+        self.cursor.execute(query, args) if not args is None else self.cursor.execute(query)
+        self.conn.commit()
         
 
     

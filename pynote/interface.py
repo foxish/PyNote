@@ -1,19 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Mar 17 23:17:07 2013
-
-@author: DarkCthulhu
-"""
-
 from Tkinter import * 
-
-def Button1(): 	
-    listbox.insert(END, "button1 pressed") 
-
-def Button3(): 	
-    text_contents = text.get() 	
-    listbox.insert(END, text_contents) 	
-    text.delete(0,END) 
+#from sqlite.sqlitehelper import Sqlitehelper
 
 root = Tk() 
 root.title("TkInter")
