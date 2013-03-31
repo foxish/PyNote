@@ -11,10 +11,10 @@ import wx
 import wx.xrc
 
 ###########################################################################
-## Class mainFrame
+## Class MainFrame
 ###########################################################################
 
-class mainFrame ( wx.Frame ):
+class MainFrame ( wx.Frame ):
 	
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 803,553 ), style = wx.CAPTION|wx.CLOSE_BOX|wx.MINIMIZE_BOX|wx.STAY_ON_TOP|wx.SYSTEM_MENU|wx.TAB_TRAVERSAL )
@@ -55,15 +55,33 @@ class mainFrame ( wx.Frame ):
 		fgSizer6.SetFlexibleDirection( wx.BOTH )
 		fgSizer6.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
-		self.m_search = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_search.SetMinSize( wx.Size( 200,-1 ) )
+		fgSizer2 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer2.SetFlexibleDirection( wx.BOTH )
+		fgSizer2.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
-		fgSizer6.Add( self.m_search, 0, wx.ALL, 5 )
+		self.m_staticText1 = wx.StaticText( self, wx.ID_ANY, u"Search:", wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_CENTRE )
+		self.m_staticText1.Wrap( -1 )
+		fgSizer2.Add( self.m_staticText1, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
-		self.m_noteName = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_noteName.SetMinSize( wx.Size( 575,-1 ) )
+		self.m_search = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 145,-1 ), 0 )
+		fgSizer2.Add( self.m_search, 0, wx.ALL, 5 )
 		
-		fgSizer6.Add( self.m_noteName, 0, wx.ALL, 5 )
+		
+		fgSizer6.Add( fgSizer2, 1, wx.EXPAND, 5 )
+		
+		fgSizer3 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer3.SetFlexibleDirection( wx.BOTH )
+		fgSizer3.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
+		self.m_staticText2 = wx.StaticText( self, wx.ID_ANY, u"Title:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText2.Wrap( -1 )
+		fgSizer3.Add( self.m_staticText2, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		self.m_noteName = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 535,-1 ), 0 )
+		fgSizer3.Add( self.m_noteName, 0, wx.ALL, 5 )
+		
+		
+		fgSizer6.Add( fgSizer3, 1, wx.EXPAND, 5 )
 		
 		m_noteListChoices = []
 		self.m_noteList = wx.ListBox( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_noteListChoices, 0 )
@@ -90,7 +108,7 @@ class mainFrame ( wx.Frame ):
 		
 		# Connect Events
 		self.Bind( wx.EVT_MENU, self.about_click, id = self.m_menuItem6.GetId() )
-		self.m_search.Bind( wx.EVT_KEY_DOWN, self.search_perform )
+		self.m_noteList.Bind( wx.EVT_LISTBOX, self.list_itemclick )
 		self.m_newNote.Bind( wx.EVT_BUTTON, self.new_note_event )
 		self.m_saveNote.Bind( wx.EVT_BUTTON, self.save_note_event )
 	
@@ -102,7 +120,7 @@ class mainFrame ( wx.Frame ):
 	def about_click( self, event ):
 		event.Skip()
 	
-	def search_perform( self, event ):
+	def list_itemclick( self, event ):
 		event.Skip()
 	
 	def new_note_event( self, event ):
@@ -110,4 +128,5 @@ class mainFrame ( wx.Frame ):
 	
 	def save_note_event( self, event ):
 		event.Skip()
+	
 
