@@ -27,6 +27,16 @@ class Storage(object):
             return True
         except OSError:
             return False
+            
+    def retrieve_file(self, title):
+        hashed_title = self._findhash(title)
+        file_path = os.path.join(self._path, hashed_title)
+        try:
+            with open(file_path, 'r') as file_handle:
+                data = file_handle.read()
+            return data
+        except OSError:
+            raise
     
     # finding the sha224 hexdigest
     def _findhash(self, string):

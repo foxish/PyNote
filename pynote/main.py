@@ -27,9 +27,9 @@ class Main(MainFrame):
         
     # overrides for UI events
     def list_itemclick(self, event):
-        self.m_noteName.Clear()
-        self.m_noteContent.Clear()
-        print self.m_noteList.GetSelection()
+        selected = self.m_noteList.GetStringSelection()
+        self.m_noteName.SetValue(selected)
+        self.m_noteContent.SetValue(self.store.retrieve_file(selected))
     
     def about_click( self, event ):
         about_str = Main.ABOUT_URL +"\n"+ ABOUT_LICENSE
