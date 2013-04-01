@@ -38,6 +38,16 @@ class Storage(object):
         except OSError:
             raise
     
+    def delete_file(self, title):
+        hashed_title = self._findhash(title)
+        file_path = os.path.join(self._path, hashed_title)
+        # remove sqlite entry
+        self._sqlite.delete_value(title)
+        try:
+            os.remove(file_path)
+        except OSError:
+            raise
+    
     # finding the sha224 hexdigest
     def _findhash(self, string):
         return hashlib.sha224(string).hexdigest()

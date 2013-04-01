@@ -44,7 +44,8 @@ class Main(MainFrame):
         else:
             self.show_info("An Error Occurred")
         
-
+    
+    
 def main():
     app = wx.PySimpleApp(0)
     frame = Main()
