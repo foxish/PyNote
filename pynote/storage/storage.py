@@ -12,8 +12,8 @@ class Storage(object):
     # le constructeur (let us hope this is french)
     def __init__(self):
         self._path = os.path.join(expanduser("~"), Storage.DIR_NAME)
-        self._sqlite = PyNoteSqlite(os.path.join(expanduser("~"), Storage.DIR_NAME, Storage.DB_NAME))
         self._directory_action() # check if directory exists, if not, create it
+        self._sqlite = PyNoteSqlite(os.path.join(expanduser("~"), Storage.DIR_NAME, Storage.DB_NAME))
     
     # save the file to the user's home-dir specific folder
     def save_file(self, title, content):

@@ -32,7 +32,7 @@ class Main(MainFrame):
         self.m_noteContent.SetValue(self.store.retrieve_file(selected))
     
     def about_click( self, event ):
-        about_str = Main.ABOUT_URL +"\n"+ ABOUT_LICENSE
+        about_str = Main.ABOUT_URL +"\n"+ Main.ABOUT_LICENSE
         self.show_info(about_str)
 	
     def save_note_event( self, event ):
