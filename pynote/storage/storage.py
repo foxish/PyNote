@@ -45,8 +45,9 @@ class Storage(object):
         self._sqlite.delete_value(title)
         try:
             os.remove(file_path)
+            return True
         except OSError:
-            raise
+            return False
     
     # finding the sha224 hexdigest
     def _findhash(self, string):
@@ -61,5 +62,8 @@ class Storage(object):
             if not os.path.isdir(path):
                 raise
 
-    def list_notes(self, ordered=False):
-        return self._sqlite.get_all_values()
+    def list_notes(self, filtered=False):
+        if(filtered):
+            return self._sqlite.get_filtered_values(filtered)
+        else:
+            return self._sqlite.get_all_values()

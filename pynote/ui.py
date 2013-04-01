@@ -17,26 +17,26 @@ import wx.xrc
 class MainFrame ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 803,553 ), style = wx.CAPTION|wx.CLOSE_BOX|wx.MINIMIZE_BOX|wx.STAY_ON_TOP|wx.SYSTEM_MENU|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"PyNote", pos = wx.DefaultPosition, size = wx.Size( 803,566 ), style = wx.CAPTION|wx.CLOSE_BOX|wx.MINIMIZE_BOX|wx.STAY_ON_TOP|wx.SYSTEM_MENU|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		
 		self.m_statusBar = self.CreateStatusBar( 1, wx.ST_SIZEGRIP, wx.ID_ANY )
 		self.m_menubar = wx.MenuBar( 0 )
 		self.m_menu1 = wx.Menu()
-		self.m_menuItem2 = wx.MenuItem( self.m_menu1, wx.ID_ANY, u"MyMenuItem", wx.EmptyString, wx.ITEM_NORMAL )
+		self.m_menuItem2 = wx.MenuItem( self.m_menu1, wx.ID_ANY, u"Sync now", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menu1.AppendItem( self.m_menuItem2 )
 		
-		self.m_menuItem3 = wx.MenuItem( self.m_menu1, wx.ID_ANY, u"MyMenuItem", wx.EmptyString, wx.ITEM_NORMAL )
+		self.m_menuItem3 = wx.MenuItem( self.m_menu1, wx.ID_ANY, u"Exit", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menu1.AppendItem( self.m_menuItem3 )
 		
 		self.m_menubar.Append( self.m_menu1, u"File" ) 
 		
 		self.m_menu2 = wx.Menu()
-		self.m_menuItem4 = wx.MenuItem( self.m_menu2, wx.ID_ANY, u"MyMenuItem", wx.EmptyString, wx.ITEM_NORMAL )
+		self.m_menuItem4 = wx.MenuItem( self.m_menu2, wx.ID_ANY, u"Git Preferences", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menu2.AppendItem( self.m_menuItem4 )
 		
-		self.m_menuItem5 = wx.MenuItem( self.m_menu2, wx.ID_ANY, u"MyMenuItem", wx.EmptyString, wx.ITEM_NORMAL )
+		self.m_menuItem5 = wx.MenuItem( self.m_menu2, wx.ID_ANY, u"Add Remote...", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menu2.AppendItem( self.m_menuItem5 )
 		
 		self.m_menubar.Append( self.m_menu2, u"Preferences" ) 
@@ -45,7 +45,8 @@ class MainFrame ( wx.Frame ):
 		self.m_menuItem6 = wx.MenuItem( self.m_menu3, wx.ID_ANY, u"About", wx.EmptyString, wx.ITEM_NORMAL )
 		self.m_menu3.AppendItem( self.m_menuItem6 )
 		
-		self.m_menu3.AppendSeparator()
+		self.m_menuItem61 = wx.MenuItem( self.m_menu3, wx.ID_ANY, u"Website...", wx.EmptyString, wx.ITEM_NORMAL )
+		self.m_menu3.AppendItem( self.m_menuItem61 )
 		
 		self.m_menubar.Append( self.m_menu3, u"Help" ) 
 		
@@ -63,7 +64,7 @@ class MainFrame ( wx.Frame ):
 		self.m_staticText1.Wrap( -1 )
 		fgSizer2.Add( self.m_staticText1, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
-		self.m_search = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 145,-1 ), 0 )
+		self.m_search = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 145,-1 ), wx.TE_PROCESS_ENTER )
 		fgSizer2.Add( self.m_search, 0, wx.ALL, 5 )
 		
 		
@@ -94,11 +95,29 @@ class MainFrame ( wx.Frame ):
 		
 		fgSizer6.Add( self.m_noteContent, 0, wx.ALL, 5 )
 		
+		fgSizer4 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer4.SetFlexibleDirection( wx.BOTH )
+		fgSizer4.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		
 		self.m_newNote = wx.Button( self, wx.ID_ANY, u"New", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer6.Add( self.m_newNote, 0, wx.ALL, 5 )
+		fgSizer4.Add( self.m_newNote, 0, wx.ALL, 5 )
+		
+		self.m_deleteNote = wx.Button( self, wx.ID_ANY, u"Delete", wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer4.Add( self.m_deleteNote, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		
+		fgSizer6.Add( fgSizer4, 1, wx.EXPAND, 5 )
+		
+		bSizer1 = wx.BoxSizer( wx.HORIZONTAL )
 		
 		self.m_saveNote = wx.Button( self, wx.ID_ANY, u"Save", wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer6.Add( self.m_saveNote, 0, wx.ALIGN_RIGHT|wx.ALL, 5 )
+		bSizer1.Add( self.m_saveNote, 1, wx.ALIGN_RIGHT|wx.ALL, 5 )
+		
+		self.m_minimize = wx.Button( self, wx.ID_ANY, u"Minimize", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer1.Add( self.m_minimize, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		
+		fgSizer6.Add( bSizer1, 1, wx.EXPAND, 5 )
 		
 		
 		self.SetSizer( fgSizer6 )
@@ -108,9 +127,12 @@ class MainFrame ( wx.Frame ):
 		
 		# Connect Events
 		self.Bind( wx.EVT_MENU, self.about_click, id = self.m_menuItem6.GetId() )
+		self.m_search.Bind( wx.EVT_TEXT_ENTER, self.search_event )
 		self.m_noteList.Bind( wx.EVT_LISTBOX, self.list_itemclick )
-		self.m_newNote.Bind( wx.EVT_BUTTON, self.new_note_event )
-		self.m_saveNote.Bind( wx.EVT_BUTTON, self.save_note_event )
+		self.m_newNote.Bind( wx.EVT_BUTTON, self.new_click )
+		self.m_deleteNote.Bind( wx.EVT_BUTTON, self.delete_click )
+		self.m_saveNote.Bind( wx.EVT_BUTTON, self.save_click )
+		self.m_minimize.Bind( wx.EVT_BUTTON, self.minimize_click )
 	
 	def __del__( self ):
 		pass
@@ -120,13 +142,22 @@ class MainFrame ( wx.Frame ):
 	def about_click( self, event ):
 		event.Skip()
 	
+	def search_event( self, event ):
+		event.Skip()
+	
 	def list_itemclick( self, event ):
 		event.Skip()
 	
-	def new_note_event( self, event ):
+	def new_click( self, event ):
 		event.Skip()
 	
-	def save_note_event( self, event ):
+	def delete_click( self, event ):
+		event.Skip()
+	
+	def save_click( self, event ):
+		event.Skip()
+	
+	def minimize_click( self, event ):
 		event.Skip()
 	
 
